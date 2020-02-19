@@ -16,30 +16,69 @@ const Table = () => {
     </div>
   );
 };
-class Email extends React.Component {
-  state = { value: "" };
 
-  handleChange = event => {
-    this.setState({ value: event.target.value });
+class Email extends React.Component {
+  state = {
+    email: "",
+    name: "",
+    message: ""
+  };
+  sendEmail(x, y) {
+    axios({
+      url: "http://192.168.1.109:3001/login",
+      method: "post",
+      data: {
+        mail: x,
+        name: y
+      }
+    });
+  }
+
+  handleclick = event => {
+    this.sendEmail(this.state.email, this.state.name);
+    //alert(this.state.mail);
   };
 
+  handleChange = event => {
+    this.setState({ email: event.target.value });
+  };
+  handleChange1 = event => {
+    this.setState({ name: event.target.value });
+  };
+  handleChange2 = event => {
+    this.setState({ message: event.target.value });
+  };
   render() {
     return (
       <div class="row">
         <div class="col">
           <div class="collapse multi-collapse" id="multiCollapseExample2">
             <form>
-              <input name="name" type="text" class="feedback-input" placeholder="Name" />
+              <input
+                name="name"
+                value={this.state.name}
+                onChange={this.handleChange1}
+                type="text"
+                class="feedback-input"
+                placeholder="Name"
+              />
               <input
                 name="email"
-                value={this.state.value}
+                value={this.state.email}
                 onChange={this.handleChange}
                 class="feedback-input"
                 placeholder="email"
               />
-              <textarea name="text" id="message" class="feedback-input" placeholder="Comment"></textarea>
+              <textarea
+                name="text"
+                value={this.state.message}
+                onChange={this.handleChange2}
+                id="message"
+                class="feedback-input"
+                placeholder="Comment"
+              ></textarea>
 
-              <button type="button" class="btn btn-outline-secondary" onClick={sendEmail}>
+              <button type="button" class="btn btn-outline-secondary" onClick={this.handleclick}>
                 Submit
               </button>
             </form>
@@ -48,9 +87,6 @@ class Email extends React.Component {
       </div>
     );
   }
-}
-function sendEmail() {
-  alert("wysyłam");
 }
 
 function Elhover() {
